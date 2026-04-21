@@ -116,17 +116,18 @@ namespace core::messagequeue {
             }
             auto wantCaptureMouse = g_showImGui && ImGui::GetIO().WantCaptureMouse;
             HandleMousePress(e, WM_LBUTTON, { {
-                g_leftMousePressed = wantCaptureMouse ? false : true;
+                g_leftMousePressed = wantCaptureMouse ? 0 : 10; // Keep click active for the next 10 checks.
+                                                                // Smaller numbers such as 3 still have a chance of failure
                 if (wantCaptureMouse)
                     g_inputEnabled = false;
-            } }, g_leftMousePressed = false);
+            } }, g_leftMousePressed = 0);
             HandleMousePress(e, WM_MBUTTON, { {
-                g_midMousePressed = wantCaptureMouse ? false : true;
+                g_midMousePressed = wantCaptureMouse ? 0 : 10;
                 if (wantCaptureMouse)
                     g_inputEnabled = false;
                 else
                     ImGui::SetWindowFocus();
-            } }, g_midMousePressed = false);
+            } }, g_midMousePressed = 0);
             HandleMousePress(e, WM_RBUTTON, 0, { {
                 g_inputEnabled = wantCaptureMouse ? false : !g_inputEnabled;
                 if (!wantCaptureMouse)
